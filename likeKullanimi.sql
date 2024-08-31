@@ -1,24 +1,27 @@
--- like kullanımı where şartından sonra kullanılır.
--- kelimenin baş harfi m olanları getır
-select * from Employees where FirstName LIKE 'm%'-- postgreSQL
-select * from Employees where FirstName LIKE 'm%'--msssql
+--tarih sorgularında genel olarak kullanılan date_part fonksıyonu vardır
 
---first name a ile bitenler 
-select * from Employees where FirstName LIKE '%a';
+select * from orders where DATEPART(YEAR,OrderDate)=1996;--sql server için
+select * from orders where year(OrderDate)=1996 and MONTH(OrderDate)=7 and DAY(OrderDate)=8;
 
---firstname içerisinde 'an' olanlar
-select * from Employees where FirstName LIKE '%an%';
+select * from orders where date_part('year',order_date)=1996;--postgresql
+select * from orders where date_part('month',order_date)=7;--postgresql
+select * from orders where date_part('day',order_date)=7;--postgresql
+--datepart çok kullanıyor.
+select DATEPART(DAYOFYEAR,GETDATE())
+select DATE_PART('doy',CURRENT_TIMESTAMP)--day of year
+select DATE_PART('dow',CURRENT_TIMESTAMP)--day of week
+select DATE_PART('quarter',CURRENT_TIMESTAMP)--4 aylık dılımler
+select * from orders where DATE_PART('quarter',order_date)=3 and DATE_PART('year',order_date)=1996
+select CURRENT_TIMESTAMP --posgresql şuanki zamanı veriir
+select GETDATE()-- mssql şuankı zamanı verir
+--doğduğundan beri ne kadar yaşadığını hesapladık
+select * from Employees
+select Age(CURRENT_TIMESTAMP,Birth_Date) from Employees--postgresql
 
---isminde ilk harf a olacak ikinci harf onemli değil üçüncü harf 
-select * from Employees where FirstName LIKE 'a_n%';
+--iki tarih arasaındaki fark
+select DATEDIFF(year,BirthDate ,GETDATE()) from Employees--mssql
 
--- notlarında italian kelimesi geçen çalışanlar
-select * from Employees where Notes LIKE '%Italian%';
+select now(),CURRENT_TIMESTAMP
+SELECT LOCALTIME;
+SHOW timezone;
 
---Adının ilk harfi a ya da L olanlar
-select * from Employees where FirstName LIKE 'a%' or FirstName like 'l%';
---bir diğer kullanımı
-select * from Employees where FirstName LIKE '[al]%'--mssqle özel
-
---postgresql için
---select * from Employees where first_name SIMILAR TO '[AL]%'
