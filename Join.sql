@@ -39,6 +39,7 @@ where s.country='Germany'
 
 Select * from orders
 select * from order_details
+
 -- Yilllara gore ciro dagilimi 
 select date_part('year',o.order_date) Yil,Round(sum(FLOOR(od.unit_price*od.quantity))) Ciro
 from orders o
